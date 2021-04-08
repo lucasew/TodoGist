@@ -2,6 +2,7 @@ function getCurrentTime() {
     return Math.floor(new Date().getTime()/1000.0)
 }
 
+const headerTitle = document.getElementById("title")
 function remainingTimeFormatter(time) {
     let units = time
     if (Math.abs(units) <= 60) {
@@ -59,7 +60,9 @@ function stateToHTML(state) {
     const body = document.createElement("div")
     body.className = "todo-body"
     body.innerHTML = state.body
-    body.contentEditable = true
+    if (isEditMode()) {
+        body.contentEditable = true
+    } 
     body.addEventListener('change', () => {
         console.log("change")
         bumpModtime()
@@ -73,7 +76,7 @@ function generateRandomID() {
     return uint32.toString(16)
 }
 
-function submitTask(e) {
+function submitTask() {
     const body = document.getElementById("task-input").innerHTML
     const due = Date.parse(document.getElementById("task-due").value)/1000
     if (isNaN(due)) {
@@ -90,8 +93,6 @@ function submitTask(e) {
         })
     )
 }
-
-document.getElementById("task-form").addEventListener('submit', submitTask)
 
 function parseBoolean(value) {
     const strvalue = String(value)
@@ -143,3 +144,18 @@ function renderItems(items = JSON.parse(localStorage.getItem("items"))) {
     }
 }
 renderItems()
+
+function isEditMode() {
+    return parseBoolean(headerTitle.dataset.editable)
+}
+
+function toggleEditMode() {
+    const isEditable = isEditMode()
+    headerTitle.dataset.editable = !isEditable
+    storeState()
+    renderItems()
+}
+
+headerTitle.addEventListener('click', toggleEditMode)
+headerTitle.style.cursor = "pointer"
+headerTitle.title = "Enable/disable edit mode"

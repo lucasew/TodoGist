@@ -6,6 +6,12 @@ html, body {
     min-height: 100vh;
 }
 
+body {
+    display: flex;
+    justify-content: space-between;
+    max-height: 100vh;
+}
+
 header > h1 {
     text-align: center;
     flex: 1;
@@ -75,16 +81,21 @@ div[data-state="overdue"] .tick {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    border: 1px black solid;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    max-width: 90vw;
 }
 .todo-body {
     width: 100%;
     margin-left: 20px;
-    flex-direction: row;
-    display: flex;
 }
 
 article {
     flex: 1;
+    overflow-y: scroll;
 }
 
 footer form {

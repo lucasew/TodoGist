@@ -43,13 +43,15 @@ const sync = useSerial(async function sync() {
                 id,
                 due,
                 body,
-                is_done
+                is_done,
+                mod_time
             } = item
             const fileData = {
                 id,
                 due: parseInt(due),
                 body,
-                is_done: parseBoolean(is_done)
+                is_done: parseBoolean(is_done),
+                mod_time: parseInt(mod_time)
             }
             if (isNaN(fileData.due)) {
                 console.log(`SYNC: '${file}' element have a due element that is not a integer ('${due}')`)
@@ -57,7 +59,17 @@ const sync = useSerial(async function sync() {
             }
             if (data[id] !== undefined) {
                 console.log(`SYNC: element with id ${id} merged with element from remote`)
-                data[id] = {...data[id], ...fileData}
+                if (!data[id].mod_time) {
+                    data[id].mod_time = 0
+                }
+                if (!fileData.mod_time) {
+                    fileData.mod_time = 0
+                }
+                if (data[id].mod_time > fileData.mod_time) {
+                    data[id] = {...fileData, ...data[id]}
+                } else {
+                    data[id] = {...data[id], ...fileData}
+                }
                 return
             } else {
                 data[id] = fileData

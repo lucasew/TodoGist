@@ -33,27 +33,37 @@ function remainingTimeFormatter(time) {
 
 function stateToHTML(state) {
     let ret = document.createElement("div")
+    function bumpModtime() {
+        ret.dataset["mod_time"] = getCurrentTime()
+    }
     ret.className = "item "
     Object.keys(state).forEach((key) => {
         ret.dataset[key] = state[key]
     })
+    if (!ret.dataset["mod_time"]) {
+        bumpModtime()
+    }
     const tickButton = document.createElement("div")
     tickButton.innerText = remainingTimeFormatter(state.due - getCurrentTime())
     tickButton.addEventListener('click', () => {
         console.log("ticking todo item")
         ret.dataset.is_done = !parseBoolean(ret.dataset.is_done)
+        bumpModtime()
     })
     if (tickButton.innerText[0] == '-') { // remove trailing -
         tickButton.innerText = tickButton.innerText.slice(1)
         tickButton.style.color = "red"
     }
-    
     tickButton.className = "tick"
     ret.appendChild(tickButton)
     const body = document.createElement("div")
     body.className = "todo-body"
     body.innerHTML = state.body
     body.contentEditable = true
+    body.addEventListener('change', () => {
+        console.log("change")
+        bumpModtime()
+    })
     ret.appendChild(body)
     return ret
 }
@@ -101,13 +111,15 @@ function extractStates() {
             id,
             body,
             is_done,
-            due
+            due,
+            mod_time
         } = e.dataset
         states.push({
             id,
             body,
             is_done: parseBoolean(is_done),
-            due: parseInt(due)
+            due: parseInt(due),
+            mod_time: parseInt(mod_time)
         })
     }
     return states

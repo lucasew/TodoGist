@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>TodoGist</title>
+</head>
+<body>
+    <header>
+        <div></div>
+        <h1>TodoGist</h1>
+        <div id="sync-status" data-state="undefined" title="No synchronization information yet"></div>
+    </header>
+    <article id="tasks">
+    </article>
+    <footer>
+        <form id="task-form">
+            <div id="task-input" contenteditable></div>
+            <input id="task-due" required type="datetime-local">
+            <button type="submit">></button>
+        </form>
+    </footer>
+    <script src="index.js"></script>
+    <script src="gist.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header > h1 {
+    text-align: center;
+    flex: 1;
+}
+
+header {
+    display: flex;
+    align-items: center;
+}
+
+header #sync-status {
+    width: 1rem;
+    height: 1rem;
+    border: 1px black solid;
+    border-radius: 50%;
+    margin: 1rem;
+}
+
+header #sync-status[data-state="unauthorized"] {
+    background-color: black;
+}
+
+header #sync-status[data-state="error"] {
+    background-color: red;
+}
+
+header #sync-status[data-state="syncing"] {
+    background-color: yellow;
+}
+
+header #sync-status[data-state="synchronized"] {
+    background-color: green;
+}
+
+.tick {
+    width: 2rem;
+    height: 2rem;
+    border: 2px black solid;
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    transition: all .2s;
+}
+
+div[data-is_done=true] .tick {
+    background-color: black;
+}
+
+div[data-state="overdue"] .tick {
+    border: 4px red solid;
+}
+
+.tick {
+    padding: 2px;
+}
+
+.tasks {
+    overflow: scroll;
+}
+
+.item {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.todo-body {
+    width: 100%;
+    margin-left: 20px;
+    flex-direction: row;
+    display: flex;
+}
+
+article {
+    flex: 1;
+}
+
+footer form {
+    display: flex;
+    flex-direction: row;
+}
+
+#task-input {
+    flex: 1;
+}
+

@@ -164,7 +164,6 @@ function useInactivity(fn, ms = 1000) {
         clearTimeout(timeout)
         timeout = setTimeout(callback, ms)
     }
-    window.addEventListener('mousemove', handleMovement)
     window.addEventListener('mousedown', handleMovement)
     window.addEventListener('keypress', handleMovement)
     window.addEventListener('touchmove', handleMovement)

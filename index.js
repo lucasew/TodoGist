@@ -74,7 +74,6 @@ function generateRandomID() {
 }
 
 function submitTask(e) {
-    e.preventDefault()
     const body = document.getElementById("task-input").innerHTML
     const due = Date.parse(document.getElementById("task-due").value)/1000
     if (isNaN(due)) {

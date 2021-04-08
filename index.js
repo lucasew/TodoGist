@@ -2,7 +2,6 @@ function getCurrentTime() {
     return Math.floor(new Date().getTime()/1000.0)
 }
 
-
 function remainingTimeFormatter(time) {
     let units = time
     if (Math.abs(units) <= 60) {
@@ -46,6 +45,7 @@ function stateToHTML(state) {
     })
     if (tickButton.innerText[0] == '-') { // remove trailing -
         tickButton.innerText = tickButton.innerText.slice(1)
+        tickButton.style.color = "red"
     }
     
     tickButton.className = "tick"

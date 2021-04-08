@@ -90,10 +90,7 @@ const sync = useSerial(async function sync() {
                 return
             }
         }
-        const localData = JSON.parse(localStorage.getItem("items"))
-        if (Array.isArray(localData)) {
-            localData.forEach(processItem)
-        }
+        
         const gistData = await (await github(`/gists/${localStorage.getItem("gh-gist")}`)).json()
         console.log(gistData)
         let {files} = gistData
@@ -107,6 +104,10 @@ const sync = useSerial(async function sync() {
         Object.values(files).forEach(processFile)
         if (dataJSON !== undefined || dataJSON !== null) {
             processFile(dataJSON) // data.json always parsed last if it exists
+        }
+        const localData = JSON.parse(localStorage.getItem("items"))
+        if (Array.isArray(localData)) {
+            localData.forEach(processItem)
         }
         console.log(data)
         const res = await github(`/gists/${localStorage.getItem("gh-gist")}`, {

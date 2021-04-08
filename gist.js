@@ -110,26 +110,27 @@ const sync = useSerial(async function sync() {
         if (true) { // TODO: Should I skip archive.json 
             files["archive.json"] = undefined
         }
-        const dataJSON = files["data.json"]
-        files["data.json"] = undefined
         // End precedence rules
         Object.values(files).forEach(processFile)
-        if (dataJSON !== undefined || dataJSON !== null) {
-            processFile(dataJSON) // data.json always parsed last if it exists
-        }
         const localData = JSON.parse(localStorage.getItem("items"))
         if (Array.isArray(localData)) {
             localData.forEach(processItem)
         }
         console.log(data)
-        const res = await github(`/gists/${localStorage.getItem("gh-gist")}`, {
-            files: {
-                "data.json": {
-                    content: JSON.stringify(Object.values(data), null, 2)
+        const newContent = JSON.stringify(Object.values(data), null, 2)
+        const oldContent = gistData.files["data.json"].content
+        if (newContent != oldContent) {
+            const res = await github(`/gists/${localStorage.getItem("gh-gist")}`, {
+                files: {
+                    "data.json": {
+                        content: newContent
+                    }
                 }
-            }
-        }, "PATCH")
-        console.log(res)
+            }, "PATCH")
+            console.log(res)
+        } else {
+            console.log("content is the same, skipping...")
+        }
         renderItems(Object.values(data))
         syncStatus.dataset.state = "synchronized"
         syncStatus.title = "Synchronization success"
@@ -151,3 +152,22 @@ async function github(path, payload, method = "GET") {
     })
     return await fetch(req)
 }
+
+function useInactivity(fn, ms = 1000) {
+    let timeout = setTimeout(fn, ms)
+    const callback = () => {
+        fn()
+        handleMovement()
+    }
+    function handleMovement() {
+        console.log("movement")
+        clearTimeout(timeout)
+        timeout = setTimeout(callback, ms)
+    }
+    window.addEventListener('mousemove', handleMovement)
+    window.addEventListener('mousedown', handleMovement)
+    window.addEventListener('keypress', handleMovement)
+    window.addEventListener('touchmove', handleMovement)
+}
+
+useInactivity(sync, 10000)

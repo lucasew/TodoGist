@@ -13,10 +13,25 @@ const syncStatus = document.getElementById("sync-status")
         const gistID = prompt("Setup: gist where I will store the information")
         window.localStorage.setItem("gh-gist", gistID)
     }
-    console.log()
+    await sync()
+    document.getElementById("sync-status").addEventListener('click', sync)
 })()
 
-async function sync() {
+function useSerial(fn) {
+    let running = false
+    return function(...args) {
+        if (running) {
+            alert("Error: can't run this action more than once in the same time")
+            return
+        }
+        running = true
+        Promise.resolve(fn(...args)).finally(() => {
+            running = false
+        })
+    }
+}
+
+const sync = useSerial(async function sync() {
     const syncStatus = document.getElementById("sync-status")
     syncStatus.dataset.state = "syncing"
     syncStatus.title = "Synchronizing"
@@ -110,7 +125,7 @@ async function sync() {
         syncStatus.title = "Synchronization error"
         console.error(e)
     }
-}
+})
 
 async function github(path, payload, method = "GET") {
     const req = new Request(`https://api.github.com${path}`, {

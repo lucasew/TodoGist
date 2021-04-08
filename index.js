@@ -2,6 +2,7 @@ function getCurrentTime() {
     return Math.floor(new Date().getTime()/1000.0)
 }
 
+
 function remainingTimeFormatter(time) {
     let units = time
     if (Math.abs(units) <= 60) {

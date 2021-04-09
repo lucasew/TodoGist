@@ -146,12 +146,12 @@ function renderItems(items = JSON.parse(localStorage.getItem("items"))) {
 renderItems()
 
 function isEditMode() {
-    return parseBoolean(headerTitle.dataset.editable)
+    return parseBoolean(document.body.dataset.editable)
 }
 
 function toggleEditMode() {
     const isEditable = isEditMode()
-    headerTitle.dataset.editable = !isEditable
+    document.body.dataset.editable = !isEditable
     storeState()
     renderItems()
 }

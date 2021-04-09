@@ -6,6 +6,10 @@ html, body {
     min-height: 100vh;
 }
 
+body[data-editable="true"] #title {
+    text-decoration: underline;
+}
+
 body {
     display: flex;
     justify-content: space-between;

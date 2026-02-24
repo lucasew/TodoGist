@@ -49,6 +49,7 @@ jobs:
           title: "chore: update generated code"
           body: "Automated PR to update generated code."
           branch: "chore/codegen-update"
+          base: ${{ github.head_ref || github.ref }}
 
       - name: CI
         run: mise run ci
@@ -68,3 +69,7 @@ jobs:
             .
             !./.git/**
             !./node_modules/**
+            !./.mise/**
+            !./coverage/**
+            !./build/**
+            !./dist/**

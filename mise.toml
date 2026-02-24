@@ -1,0 +1,22 @@
+[tools]
+# Node 14 is required because workspaced@0.1.0 depends on node-sass 4.14.1 which fails to build on newer Node versions.
+node = "14.21.3"
+"npm:workspaced" = "0.1.0"
+
+[tasks]
+lint = "workspaced codebase lint"
+fmt = "workspaced codebase format"
+
+"test:npm" = "if [ -f package.json ]; then npm test; else echo 'No tests (package.json missing)'; fi"
+test = { depends = ["test:*"] }
+
+"codegen:noop" = "echo 'No codegen to run'"
+codegen = { depends = ["codegen:*"] }
+
+"install:npm" = "if [ -f package.json ]; then npm install; else echo 'No dependencies (package.json missing)'; fi"
+install = { depends = ["install:*"] }
+
+ci = { depends = ["lint", "test"] }
+
+[env]
+_.path = ["./scripts"]

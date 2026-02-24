@@ -1,2 +1,19 @@
 #!/usr/bin/env bash
-exec re-space "$@"
+
+# Wrapper for re-space to handle legacy codebase commands
+if [ "$1" == "codebase" ]; then
+  shift
+  if [ "$1" == "lint" ]; then
+    # Translate 'workspaced codebase lint' -> 're-space lint .'
+    exec re-space lint .
+  elif [ "$1" == "format" ]; then
+    # Translate 'workspaced codebase format' -> 're-space lint . --fix'
+    exec re-space lint . --fix
+  else
+    echo "Unknown codebase command: $1"
+    exit 1
+  fi
+else
+  # Pass through any other commands
+  exec re-space "$@"
+fi

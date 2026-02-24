@@ -1,0 +1,28 @@
+{
+  "name": "todogist",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [],
+  "scripts": {
+    "test": "echo 'No tests yet'",
+    "lint": "re-space lint ."
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "babel-eslint": "^10.1.0",
+    "eslint-plugin-flowtype": "^4.7.0",
+    "@typescript-eslint/parser": "^2.34.0",
+    "eslint-plugin-react-hooks": "^2.5.1",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "prettier": "^2.0.5",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "stylelint": "^13.6.0",
+    "stylelint-config-recommended": "^3.0.0",
+    "typescript": "^3.9.5",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-config-react-app": "^5.2.1"
+  }
+}
